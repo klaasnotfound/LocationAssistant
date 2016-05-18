@@ -34,7 +34,7 @@ tag:
         compile 'com.google.android.gms:play-services-location:8.4.0'
     ```
 
-1. Copy the file [`LocationAssistant.java`]() to your project.
+1. Copy the file [`LocationAssistant.java`](app/src/main/java/com/klaasnotfound/locationassistant/LocationAssistant.java) to your project.
 
 1. In your main Activity (the one that needs location updates), do the following:
 
@@ -164,7 +164,7 @@ When the demo app detects mock locations it will simply say 'Stop mocking me'. Y
 
 ## Contact & Contribute
 
-This is a small project. If you like it, you can follow me on Twitter (@klasnotfound) or drop me a comment on my blog (klaasnotfound.com).
+This is a small project. If you like it, you can follow me on Twitter (@klaasnotfound) or drop me a comment on my blog (klaasnotfound.com).
 If you spot an error or want to suggest an improvement, feel free to submit a PR or contact me via klaas [at] klaasnotfound.com.
 
 
