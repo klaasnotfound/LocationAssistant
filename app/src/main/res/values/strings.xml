@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Location Assistant</string>
+    <string name="empty">--</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Mmmmh, no</string>
+    <string name="error">Error</string>
+    <string name="permissionExplanation">Look, we really need your location because bla bla bla&#8230;</string>
+    <string name="switchOnLocationShort">Oops - you seem to have disabled location services at the moment. This app is
+        really cool and needs your location because bla bla bla. To continue, please click on "OK".</string>
+    <string name="switchOnLocationLong">Oops - you seem to have disabled location services at the moment. This app is
+        really cool and needs your location because bla bla bla. To continue, please click on "OK" and enable
+        location. If you\'re worried about battery usage, be sure to switch to energy saving mode. </string>
+    <string name="mockLocationMessage">Stop\nMocking\nMe</string>
+</resources>
