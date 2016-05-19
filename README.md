@@ -90,7 +90,7 @@ The [documentation](#documentation) for these methods should be self-explanatory
 #### Application-wide Usage
 
 If you want to receive location updates in several Activities, you can instantiate the __LocationAssistant__ in a central application class. Be sure to start and stop it when the application becomes awake / goes to sleep.
-Then, you can register/unregister each Activity and its listener with `register()` and `unregister()`. Note that only the most recently registered Activity will receive updates. When no Activity is registered, you will see silent errors in the log.
+Then, you can register/unregister each Activity and its listener with `register()` and `unregister()`. Note that only the most recently registered Activity will receive updates. When no Activity is registered, you will see silent warnings in the log.
 
 #### Errors and Logging
 

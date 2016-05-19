@@ -644,7 +644,7 @@ public class LocationAssistant
         bestLocation = location;
         if (listener != null)
             listener.onNewLocationAvailable(location);
-        else
+        else if (!mute)
             Log.w(getClass().getSimpleName(), "New location is available, but no listener is registered!\n" +
                     "Specify a valid listener when constructing " + getClass().getSimpleName() +
                     " or register it explicitly with register().");
