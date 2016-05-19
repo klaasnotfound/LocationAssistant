@@ -1,15 +1,14 @@
 ## LocationAssistant
 
 Building a location-aware app on Android can be a hassle.
-This project provides the __LocationAssistant__, a simple class that does most of the heavy lifting for you.
+This project provides the __LocationAssistant__, a simple utility class that does most of the heavy lifting for you.
 Furthermore, it allows you to robustly reject _mock locations_.
 
 __Supported API level:__ 15+ (Android 4.0.3 and above)
 
 ## Why
 
-It's actually a non-trivial task to build an app that reliably subscribes to location updates across the most recent range of Android versions.
-Specifically, this involves checking and requesting permissions, checking and possibly enabling available location
+It's actually a non-trivial task to build an app that reliably subscribes to location updates across a reasonable range of Android versions. Specifically, this involves checking and requesting permissions, checking and possibly enabling available location
 providers, bringing up in-app system dialogs or directing the user to the system settings, and finally - processing
 location updates.
 
@@ -27,7 +26,6 @@ tag:
     ``` xml
      <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     ```
-    (_Note:_ If you only need a rough estimate of the user's location, you may instead use `ACCESS_COARSE_LOCATION`.)
 
 1. In your app's `build.gradle` file, add the following line to your `dependencies` :
     ``` groovy
@@ -38,12 +36,12 @@ tag:
 
 1. In your main Activity (the one that needs location updates), do the following:
 
-  * Implement the `LocationAssistant.Listener` interface (see below).
+  * Implement the `LocationAssistant.Listener` interface (see [below](#interacting-with-the-user)).
 
   * In the `onCreate()` method, instantiate a __LocationAssistant__ with the desired parameters.
 	For example, to receive high-accuracy location updates roughly every 5 seconds _and_ reject mock locations, call:
 	``` java
-	new LocationAssistant(this, this, LocationAssistant.Accuracy.HIGH, 5000, false);
+	assistant = new LocationAssistant(this, this, LocationAssistant.Accuracy.HIGH, 5000, false);
 	```
 
   * Start/stop the __LocationAssistant__ when you resume/pause your Activity:
@@ -105,7 +103,7 @@ To see a working a demo, clone this repository and build the project with Androi
 
 ![](doc/screens.png)
 
-When the demo app detects mock locations it will simply say 'Stop mocking me'. You can tap on the message to jump to the developer settings an disable mock locations. In a real app, you should obviously provide better instructions.
+When the demo app detects mock locations it will simply say 'Stop mocking me'. You can tap on the message to jump to the developer settings and disable mock locations. In a real app, you should obviously provide better instructions.
 
 ## Documentation
 
@@ -115,7 +113,7 @@ When the demo app detects mock locations it will simply say 'Stop mocking me'. Y
 
   This callback will only be invoked on newer Android systems (API level >= 23), usually at the first start of your app.
   If you want to show some explanation up front, do that, then call `requestLocationPermission()`. Alternatively, you can call `requestAndPossiblyExplainLocationPermission()`, which will request the location permission right away and invoke `onExplainLocationPermission()` only if the user declines.
-  Both methods will bring up the system permission dialog.
+  Both methods will bring up the in-app system permission dialog.
 
   * `onExplainLocationPermission` - Called when the user has declined the location permission and might need a better explanation as to why your app really depends on it.
 
@@ -152,9 +150,9 @@ When the demo app detects mock locations it will simply say 'Stop mocking me'. Y
 
   * `requestLocationPermission()` - Brings up a system dialog asking the user to give location permission to the app.
 
-  * `onPermissionsUpdated()` - Notifies the LocationAssistant of an update in permissions.
+  * `onPermissionsUpdated()` - Notifies the LocationAssistant of updated permissions.
 
-  * `onActivityResult()` -  Notifies the LocationAssistant of an update in the location settings
+  * `onActivityResult()` -  Notifies the LocationAssistant of updated location settings
 
   * `changeLocationSettings()` - Brings up an in-app system dialog that requests a change in location provider settings.
 
@@ -164,7 +162,7 @@ When the demo app detects mock locations it will simply say 'Stop mocking me'. Y
 
 ## Contact & Contribute
 
-This is a small project. If you like it, you can follow me on Twitter (@klaasnotfound) or drop me a comment on my blog (klaasnotfound.com).
+This is a small project. If you like it, you can [follow me on Twitter](https://twitter.com/klaasnotfound) or drop me a comment on [my blog](www.klaasnotfound.com).
 If you spot an error or want to suggest an improvement, feel free to submit a PR or contact me via klaas [at] klaasnotfound.com.
 
 
