@@ -45,7 +45,7 @@ tag:
 	```
 
   * Start/stop the __LocationAssistant__ when you resume/pause your Activity:
-	``` java
+  ``` java
     @Override
     protected void onResume() {
         super.onResume();
