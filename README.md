@@ -45,7 +45,7 @@ tag:
 	```
 
   * Start/stop the __LocationAssistant__ when you resume/pause your Activity:
-  ``` java
+	``` java
     @Override
     protected void onResume() {
         super.onResume();
@@ -60,7 +60,7 @@ tag:
 	```
 
   * Notify the __LocationAssistant__ of permission and location settings changes:
-  ``` java
+	``` java
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         assistant.onPermissionsUpdated();
