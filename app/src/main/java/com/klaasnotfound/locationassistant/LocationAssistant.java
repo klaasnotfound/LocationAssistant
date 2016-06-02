@@ -183,7 +183,7 @@ public class LocationAssistant
     private Status locationStatus;
     private boolean mockLocationsEnabled;
 
-    // Strong mock location rejection
+    // Mock location rejection
     private Location lastMockLocation;
     private int numGoodReadings;
 
@@ -470,7 +470,7 @@ public class LocationAssistant
     private void checkMockLocations() {
         // Starting with API level >= 18 we can (partially) rely on .isFromMockProvider()
         // (http://developer.android.com/reference/android/location/Location.html#isFromMockProvider%28%29)
-        // Below we have to check the Settings.Secure flag
+        // For API level < 18 we have to check the Settings.Secure flag
         if (Build.VERSION.SDK_INT < 18 &&
                 !android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings
                         .Secure.ALLOW_MOCK_LOCATION).equals("0")) {
