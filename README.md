@@ -21,8 +21,9 @@ straightforward, as Android's flag
 turns out to be unreliable (meaning sometimes fake locations are not correctly labeled as such).
 
 I struggled with Android's location issues for several days until I had what felt like an acceptable solution. In 
-this repository I am making available the relevant source code and a small demo. I also wrote [a detailed blog post]
-() on the subject (if you want to learn more).
+this repository I am making available the relevant source code and a small demo. I also wrote
+[a detailed blog post](http://www.klaasnotfound.com/2016/05/27/location-on-android-stop-mocking-me/)
+on the subject (if you want to learn more).
 
 
 ## Usage
