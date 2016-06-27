@@ -171,7 +171,6 @@ public class LocationAssistant
     private boolean mute;
 
     // Internal state
-    private boolean apiConnected;
     private boolean permissionGranted;
     private boolean locationRequested;
     private boolean locationStatusOk;
@@ -254,7 +253,7 @@ public class LocationAssistant
      */
     public void start() {
         checkMockLocations();
-        if (!apiConnected) googleApiClient.connect();
+        googleApiClient.connect();
     }
 
     /**
@@ -277,7 +276,7 @@ public class LocationAssistant
      * Call this method right before your application or activity goes to sleep.
      */
     public void stop() {
-        if (apiConnected) {
+        if (googleApiClient.isConnected()) {
             LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
             googleApiClient.disconnect();
         }
@@ -285,7 +284,6 @@ public class LocationAssistant
         locationRequested = false;
         locationStatusOk = false;
         updatesRequested = false;
-        apiConnected = false;
     }
 
     /**
@@ -453,7 +451,7 @@ public class LocationAssistant
     }
 
     protected void checkInitialLocation() {
-        if (!apiConnected || !permissionGranted || !locationRequested || !locationStatusOk) return;
+        if (!googleApiClient.isConnected() || !permissionGranted || !locationRequested || !locationStatusOk) return;
         try {
             Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
             onLocationChanged(location);
@@ -488,7 +486,7 @@ public class LocationAssistant
     }
 
     private void requestLocation() {
-        if (!apiConnected || !permissionGranted) return;
+        if (!googleApiClient.isConnected() || !permissionGranted) return;
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(priority);
         locationRequest.setInterval(updateInterval);
@@ -501,7 +499,7 @@ public class LocationAssistant
     }
 
     private boolean checkLocationAvailability() {
-        if (!apiConnected || !permissionGranted) return false;
+        if (!googleApiClient.isConnected() || !permissionGranted) return false;
         try {
             LocationAvailability la = LocationServices.FusedLocationApi.getLocationAvailability(googleApiClient);
             return la.isLocationAvailable();
@@ -530,7 +528,7 @@ public class LocationAssistant
     }
 
     private void requestLocationUpdates() {
-        if (!apiConnected || !permissionGranted || !locationRequested) return;
+        if (!googleApiClient.isConnected() || !permissionGranted || !locationRequested) return;
         try {
             LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
             updatesRequested = true;
@@ -619,7 +617,6 @@ public class LocationAssistant
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        apiConnected = true;
         acquireLocation();
     }
 
