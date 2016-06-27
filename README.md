@@ -102,7 +102,9 @@ to leave the app, the callback will provide convenience listeners that you can u
 #### Application-wide Usage
 
 If you want to receive location updates in several Activities, you can instantiate the __LocationAssistant__ in a 
-central application class. Be sure to start and stop it when the application becomes awake / goes to sleep.
+central application class. Be sure to start and stop it 
+[when the application becomes awake / goes to sleep]
+(http://www.klaasnotfound.com/2015/08/24/tracking-the-application-lifecycle-on-android/).
 Then, you can register/unregister each Activity and its listener with `register()` and `unregister()`. Note that only
 the most recently registered Activity will receive updates. When no Activity is registered, you will see silent 
 warnings in the log.
