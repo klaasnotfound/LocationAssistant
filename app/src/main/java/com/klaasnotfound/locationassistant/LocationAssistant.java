@@ -326,10 +326,11 @@ public class LocationAssistant
      */
     public void requestAndPossiblyExplainLocationPermission() {
         if (permissionGranted) return;
-        if (activity == null && !mute) {
-            Log.e(getClass().getSimpleName(), "Need location permission, but no activity is registered! " +
-                    "Specify a valid activity when constructing " + getClass().getSimpleName() +
-                    " or register it explicitly with register().");
+        if (activity == null) {
+            if (!mute)
+                Log.e(getClass().getSimpleName(), "Need location permission, but no activity is registered! " +
+                        "Specify a valid activity when constructing " + getClass().getSimpleName() +
+                        " or register it explicitly with register().");
             return;
         }
         if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -343,10 +344,11 @@ public class LocationAssistant
      * Brings up a system dialog asking the user to give location permission to the app.
      */
     public void requestLocationPermission() {
-        if (activity == null && !mute) {
-            Log.e(getClass().getSimpleName(), "Need location permission, but no activity is registered! " +
-                    "Specify a valid activity when constructing " + getClass().getSimpleName() +
-                    " or register it explicitly with register().");
+        if (activity == null) {
+            if (!mute)
+                Log.e(getClass().getSimpleName(), "Need location permission, but no activity is registered! " +
+                        "Specify a valid activity when constructing " + getClass().getSimpleName() +
+                        " or register it explicitly with register().");
             return;
         }
         ActivityCompat.requestPermissions(activity,
@@ -385,10 +387,11 @@ public class LocationAssistant
      */
     public void changeLocationSettings() {
         if (locationStatus == null) return;
-        if (activity == null && !mute) {
-            Log.e(getClass().getSimpleName(), "Need to resolve location status issues, but no activity is " +
-                    "registered! Specify a valid activity when constructing " + getClass().getSimpleName() +
-                    " or register it explicitly with register().");
+        if (activity == null) {
+            if (!mute)
+                Log.e(getClass().getSimpleName(), "Need to resolve location status issues, but no activity is " +
+                        "registered! Specify a valid activity when constructing " + getClass().getSimpleName() +
+                        " or register it explicitly with register().");
             return;
         }
         try {
