@@ -31,12 +31,12 @@ on the subject (if you want to learn more).
 1. Add this line to your `AndroidManifest.xml`, right after the opening `<manifest>`
 tag:
     ``` xml
-     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     ```
 
 1. In your app's `build.gradle` file, add the following line to your `dependencies` :
     ``` groovy
-        compile 'com.google.android.gms:play-services-location:9.4.0'
+    compile 'com.google.android.gms:play-services-location:9.4.0'
     ```
     
 1. Copy the file
