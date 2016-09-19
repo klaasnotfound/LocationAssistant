@@ -36,7 +36,7 @@ tag:
 
 1. In your app's `build.gradle` file, add the following line to your `dependencies` :
     ``` groovy
-        compile 'com.google.android.gms:play-services-location:8.4.0'
+        compile 'com.google.android.gms:play-services-location:9.4.0'
     ```
     
 1. Copy the file
