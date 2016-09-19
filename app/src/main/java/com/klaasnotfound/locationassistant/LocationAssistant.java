@@ -168,7 +168,7 @@ public class LocationAssistant
     private long updateInterval;
     private boolean allowMockLocations;
     private boolean verbose;
-    private boolean mute;
+    private boolean quiet;
 
     // Internal state
     private boolean permissionGranted;
@@ -241,10 +241,10 @@ public class LocationAssistant
      * Mutes/unmutes all log output.
      * You may want to mute the LocationAssistant in production.
      *
-     * @param mute whether or not to disable all log output (including errors).
+     * @param quiet whether or not to disable all log output (including errors).
      */
-    public void setMute(boolean mute) {
-        this.mute = mute;
+    public void setQuiet(boolean quiet) {
+        this.quiet = quiet;
     }
 
     /**
@@ -327,7 +327,7 @@ public class LocationAssistant
     public void requestAndPossiblyExplainLocationPermission() {
         if (permissionGranted) return;
         if (activity == null) {
-            if (!mute)
+            if (!quiet)
                 Log.e(getClass().getSimpleName(), "Need location permission, but no activity is registered! " +
                         "Specify a valid activity when constructing " + getClass().getSimpleName() +
                         " or register it explicitly with register().");
@@ -345,7 +345,7 @@ public class LocationAssistant
      */
     public void requestLocationPermission() {
         if (activity == null) {
-            if (!mute)
+            if (!quiet)
                 Log.e(getClass().getSimpleName(), "Need location permission, but no activity is registered! " +
                         "Specify a valid activity when constructing " + getClass().getSimpleName() +
                         " or register it explicitly with register().");
@@ -388,7 +388,7 @@ public class LocationAssistant
     public void changeLocationSettings() {
         if (locationStatus == null) return;
         if (activity == null) {
-            if (!mute)
+            if (!quiet)
                 Log.e(getClass().getSimpleName(), "Need to resolve location status issues, but no activity is " +
                         "registered! Specify a valid activity when constructing " + getClass().getSimpleName() +
                         " or register it explicitly with register().");
@@ -397,7 +397,7 @@ public class LocationAssistant
         try {
             locationStatus.startResolutionForResult(activity, REQUEST_CHECK_SETTINGS);
         } catch (IntentSender.SendIntentException e) {
-            if (!mute)
+            if (!quiet)
                 Log.e(getClass().getSimpleName(), "Error while attempting to resolve location status issues:\n" +
                         e.toString());
             if (listener != null)
@@ -413,7 +413,7 @@ public class LocationAssistant
         if (!permissionGranted) {
             if (listener != null)
                 listener.onNeedLocationPermission();
-            else if (!mute)
+            else if (!quiet)
                 Log.e(getClass().getSimpleName(), "Need location permission, but no listener is registered! " +
                         "Specify a valid listener when constructing " + getClass().getSimpleName() +
                         " or register it explicitly with register().");
@@ -427,7 +427,7 @@ public class LocationAssistant
             if (changeSettings) {
                 if (listener != null)
                     listener.onNeedLocationSettingsChange();
-                else if (!mute)
+                else if (!quiet)
                     Log.e(getClass().getSimpleName(), "Need location settings change, but no listener is " +
                             "registered! Specify a valid listener when constructing " + getClass().getSimpleName() +
                             " or register it explicitly with register().");
@@ -459,7 +459,7 @@ public class LocationAssistant
             Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
             onLocationChanged(location);
         } catch (SecurityException e) {
-            if (!mute)
+            if (!quiet)
                 Log.e(getClass().getSimpleName(), "Error while requesting last location:\n " +
                         e.toString());
             if (listener != null)
@@ -507,7 +507,7 @@ public class LocationAssistant
             LocationAvailability la = LocationServices.FusedLocationApi.getLocationAvailability(googleApiClient);
             return la.isLocationAvailable();
         } catch (SecurityException e) {
-            if (!mute)
+            if (!quiet)
                 Log.e(getClass().getSimpleName(), "Error while checking location availability:\n " + e.toString());
             if (listener != null)
                 listener.onError(ErrorType.RETRIEVAL, "Could not check location availability:\n" +
@@ -524,7 +524,7 @@ public class LocationAssistant
         if (gps || network) return;
         if (listener != null)
             listener.onFallBackToSystemSettings(onGoToLocationSettingsFromView, onGoToLocationSettingsFromDialog);
-        else if (!mute)
+        else if (!quiet)
             Log.e(getClass().getSimpleName(), "Location providers need to be enabled, but no listener is " +
                     "registered! Specify a valid listener when constructing " + getClass().getSimpleName() +
                     " or register it explicitly with register().");
@@ -536,7 +536,7 @@ public class LocationAssistant
             LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
             updatesRequested = true;
         } catch (SecurityException e) {
-            if (!mute)
+            if (!quiet)
                 Log.e(getClass().getSimpleName(), "Error while requesting location updates:\n " +
                         e.toString());
             if (listener != null)
@@ -551,7 +551,7 @@ public class LocationAssistant
             if (activity != null) {
                 Intent intent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 activity.startActivity(intent);
-            } else if (!mute)
+            } else if (!quiet)
                 Log.e(getClass().getSimpleName(), "Need to launch an intent, but no activity is registered! " +
                         "Specify a valid activity when constructing " + getClass().getSimpleName() +
                         " or register it explicitly with register().");
@@ -564,7 +564,7 @@ public class LocationAssistant
             if (activity != null) {
                 Intent intent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 activity.startActivity(intent);
-            } else if (!mute)
+            } else if (!quiet)
                 Log.e(getClass().getSimpleName(), "Need to launch an intent, but no activity is registered! " +
                         "Specify a valid activity when constructing " + getClass().getSimpleName() +
                         " or register it explicitly with register().");
@@ -577,7 +577,7 @@ public class LocationAssistant
             if (activity != null) {
                 Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS);
                 activity.startActivity(intent);
-            } else if (!mute)
+            } else if (!quiet)
                 Log.e(getClass().getSimpleName(), "Need to launch an intent, but no activity is registered! " +
                         "Specify a valid activity when constructing " + getClass().getSimpleName() +
                         " or register it explicitly with register().");
@@ -590,7 +590,7 @@ public class LocationAssistant
             if (activity != null) {
                 Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS);
                 activity.startActivity(intent);
-            } else if (!mute)
+            } else if (!quiet)
                 Log.e(getClass().getSimpleName(), "Need to launch an intent, but no activity is registered! " +
                         "Specify a valid activity when constructing " + getClass().getSimpleName() +
                         " or register it explicitly with register().");
@@ -631,7 +631,7 @@ public class LocationAssistant
     public void onLocationChanged(Location location) {
         if (location == null) return;
         boolean plausible = isLocationPlausible(location);
-        if (verbose && !mute)
+        if (verbose && !quiet)
             Log.i(getClass().getSimpleName(), location.toString() +
                     (plausible ? " -> plausible" : " -> not plausible"));
 
@@ -644,7 +644,7 @@ public class LocationAssistant
         bestLocation = location;
         if (listener != null)
             listener.onNewLocationAvailable(location);
-        else if (!mute)
+        else if (!quiet)
             Log.w(getClass().getSimpleName(), "New location is available, but no listener is registered!\n" +
                     "Specify a valid listener when constructing " + getClass().getSimpleName() +
                     " or register it explicitly with register().");
@@ -652,7 +652,7 @@ public class LocationAssistant
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        if (!mute)
+        if (!quiet)
             Log.e(getClass().getSimpleName(), "Error while trying to connect to Google API:\n" +
                     connectionResult.getErrorMessage());
         if (listener != null)

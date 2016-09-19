@@ -38,7 +38,7 @@ tag:
     ``` groovy
         compile 'com.google.android.gms:play-services-location:8.4.0'
     ```
-
+    
 1. Copy the file
 [`LocationAssistant.java`](app/src/main/java/com/klaasnotfound/locationassistant/LocationAssistant.java) to your 
 project.
@@ -112,7 +112,7 @@ warnings in the log.
 #### Errors and Logging
 
 You will be notified of errors in the `Listener.onError()` callback. By default, errors will also appear in the log. 
-If you want to switch these off (e.g. for the production version of your app) you can do so with `setMute()`. 
+If you want to switch these off (e.g. for the production version of your app) you can do so with `setQuiet()`. 
 Finally, if you would like to see which locations are processed and possibly rejected as mock locations, you can 
 request more log output with `setVerbose`.
 
@@ -195,7 +195,7 @@ the developer settings and disable mock locations. In a real app, you should obv
 
   * `setVerbose()` - Makes the LocationAssistant print info log messages.
 
-  * `setMute()` -  Mutes all log output (including errors).
+  * `setQuiet()` -  Mutes all log output (including errors).
 
 
 ## Contact & Contribute
