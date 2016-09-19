@@ -114,7 +114,7 @@ warnings in the log.
 You will be notified of errors in the `Listener.onError()` callback. By default, errors will also appear in the log. 
 If you want to switch these off (e.g. for the production version of your app) you can do so with `setQuiet()`. 
 Finally, if you would like to see which locations are processed and possibly rejected as mock locations, you can 
-request more log output with `setVerbose`.
+request more log output with `setVerbose()`.
 
 
 ## Demo
