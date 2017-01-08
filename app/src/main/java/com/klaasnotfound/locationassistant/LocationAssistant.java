@@ -41,7 +41,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.FusedLocationProviderApi;
 import com.google.android.gms.location.LocationAvailability;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
@@ -538,7 +537,7 @@ public class LocationAssistant
         if (!googleApiClient.isConnected() || !permissionGranted) return false;
         try {
             LocationAvailability la = LocationServices.FusedLocationApi.getLocationAvailability(googleApiClient);
-            return la.isLocationAvailable();
+            return (la != null && la.isLocationAvailable());
         } catch (SecurityException e) {
             if (!quiet)
                 Log.e(getClass().getSimpleName(), "Error while checking location availability:\n " + e.toString());
