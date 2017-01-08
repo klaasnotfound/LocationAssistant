@@ -208,8 +208,8 @@ the developer settings and disable mock locations. In a real app, you should obv
 ## Contact & Contribute
 
 This is a small project. If you like it, you can [follow me on Twitter](https://twitter.com/klaasnotfound) or drop me
-a comment on [my blog](www.klaasnotfound.com). If you spot an error or want to suggest an improvement, feel free to 
-submit a PR or contact me via klaas [at] klaasnotfound.com.
+a comment on [my blog](http://www.klaasnotfound.com). If you spot an error or want to suggest an improvement, feel 
+free to submit a PR or contact me via klaas [at] klaasnotfound.com.
 
 
 ## License
