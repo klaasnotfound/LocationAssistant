@@ -91,6 +91,7 @@ user is required to take action (give permission, switch on location providers e
 
 * `onNeedLocationPermission()`
 * `onExplainLocationPermission()`
+* `onLocationPermissionPermanentlyDeclined()`
 * `onNeedLocationSettingsChange()`
 * `onFallBackToSystemSettings()`
 * `onMockLocationsDetected()`
@@ -144,6 +145,12 @@ the developer settings and disable mock locations. In a real app, you should obv
 
   You can show some sort of dialog or info window here and then - if the user is willing - ask again for permission 
   with `requestLocationPermission()`.
+  
+  * `onLocationPermissionPermanentlyDeclined()` - Called when the user has declined the location permission at least 
+  twice or has declined once and checked "Don't ask again" (which will cause the system to permanently decline it).
+  
+  You can show some sort of message that explains that the user will need to go to the app settings to enable the 
+  permission. You may use the preconfigured OnClickListeners to send the user to the app settings page.
 
   * `onNeedLocationSettingsChange()` - Called when a change of the location provider settings is necessary.
 

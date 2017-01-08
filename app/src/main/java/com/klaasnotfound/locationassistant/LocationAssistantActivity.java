@@ -1,6 +1,6 @@
 // https://github.com/klaasnotfound/LocationAssistant
 /*
- *    Copyright 2016 Klaas Klasing (klaas [at] klaasnotfound.com)
+ *    Copyright 2017 Klaas Klasing (klaas [at] klaasnotfound.com)
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -56,8 +56,8 @@ public class LocationAssistantActivity extends Activity implements LocationAssis
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        tvLocation.setOnClickListener(null);
-        assistant.onPermissionsUpdated();
+        if (assistant.onPermissionsUpdated(requestCode, grantResults))
+            tvLocation.setOnClickListener(null);
     }
 
     @Override
@@ -68,6 +68,12 @@ public class LocationAssistantActivity extends Activity implements LocationAssis
     @Override
     public void onNeedLocationPermission() {
         tvLocation.setText("Need\nPermission");
+        tvLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                assistant.requestLocationPermission();
+            }
+        });
         assistant.requestAndPossiblyExplainLocationPermission();
     }
 
@@ -94,6 +100,15 @@ public class LocationAssistantActivity extends Activity implements LocationAssis
                         });
                     }
                 })
+                .show();
+    }
+
+    @Override
+    public void onLocationPermissionPermanentlyDeclined(View.OnClickListener fromView,
+                                                        DialogInterface.OnClickListener fromDialog) {
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.permissionPermanentlyDeclined)
+                .setPositiveButton(R.string.ok, fromDialog)
                 .show();
     }
 

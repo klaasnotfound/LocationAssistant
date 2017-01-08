@@ -10,5 +10,8 @@
     <string name="switchOnLocationLong">Oops - you seem to have disabled location services at the moment. This app is
         really cool and needs your location because bla bla bla. To continue, please click on "OK" and enable
         location. If you\'re worried about battery usage, be sure to switch to energy saving mode. </string>
+    <string name="permissionPermanentlyDeclined">Bummer! You have permanently declined the location permission. But
+        this app is so cool and needs your location because&#8230; you know. Click "OK" to change the permission
+        settings.</string>
     <string name="mockLocationMessage">Stop\nMocking\nMe</string>
 </resources>

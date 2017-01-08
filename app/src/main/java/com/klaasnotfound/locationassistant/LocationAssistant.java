@@ -25,9 +25,11 @@ import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -39,6 +41,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.FusedLocationProviderApi;
 import com.google.android.gms.location.LocationAvailability;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
@@ -74,6 +77,18 @@ public class LocationAssistant
          * permission with {@link #requestLocationPermission()}.
          */
         void onExplainLocationPermission();
+
+        /**
+         * Called when the user has declined the location permission at least twice or has declined once and checked
+         * "Don't ask again" (which will cause the system to permanently decline it).
+         * You can show some sort of message that explains that the user will need to go to the app settings
+         * to enable the permission. You may use the preconfigured OnClickListeners to send the user to the app
+         * settings page.
+         *
+         * @param fromView   OnClickListener to use with a view (e.g. a button), jumps to the app settings
+         * @param fromDialog OnClickListener to use with a dialog, jumps to the app settings
+         */
+        void onLocationPermissionPermanentlyDeclined(View.OnClickListener fromView, DialogInterface.OnClickListener fromDialog);
 
         /**
          * Called when a change of the location provider settings is necessary.
@@ -158,7 +173,7 @@ public class LocationAssistant
     }
 
     private final int REQUEST_CHECK_SETTINGS = 0;
-    private final int REQUEST_REQUEST_PERMISSION = 1;
+    private final int REQUEST_LOCATION_PERMISSION = 1;
 
     // Parameters
     protected Context context;
@@ -181,6 +196,7 @@ public class LocationAssistant
     private LocationRequest locationRequest;
     private Status locationStatus;
     private boolean mockLocationsEnabled;
+    private int numTimesPermissionDeclined;
 
     // Mock location rejection
     private Location lastMockLocation;
@@ -352,15 +368,31 @@ public class LocationAssistant
             return;
         }
         ActivityCompat.requestPermissions(activity,
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_REQUEST_PERMISSION);
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSION);
     }
 
     /**
      * Call this method at the end of your {@link Activity#onRequestPermissionsResult} implementation to notify the
      * LocationAssistant of an update in permissions.
+     *
+     * @param requestCode  the request code returned to the activity (simply pass it on)
+     * @param grantResults the results array returned to the activity (simply pass it on)
+     * @return {@code true} if the location permission was granted, {@code false} otherwise
      */
-    public void onPermissionsUpdated() {
-        acquireLocation();
+    public boolean onPermissionsUpdated(int requestCode, int[] grantResults) {
+        if (requestCode != REQUEST_LOCATION_PERMISSION) return false;
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            acquireLocation();
+            return true;
+        } else {
+            numTimesPermissionDeclined++;
+            if (!quiet)
+                Log.i(getClass().getSimpleName(), "Location permission request denied.");
+            if (numTimesPermissionDeclined >= 2 && listener != null)
+                listener.onLocationPermissionPermanentlyDeclined(onGoToAppSettingsFromView,
+                        onGoToAppSettingsFromDialog);
+            return false;
+        }
     }
 
     /**
@@ -411,6 +443,7 @@ public class LocationAssistant
     protected void acquireLocation() {
         if (!permissionGranted) checkLocationPermission();
         if (!permissionGranted) {
+            if (numTimesPermissionDeclined >= 2) return;
             if (listener != null)
                 listener.onNeedLocationPermission();
             else if (!quiet)
@@ -589,6 +622,38 @@ public class LocationAssistant
         public void onClick(View v) {
             if (activity != null) {
                 Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS);
+                activity.startActivity(intent);
+            } else if (!quiet)
+                Log.e(getClass().getSimpleName(), "Need to launch an intent, but no activity is registered! " +
+                        "Specify a valid activity when constructing " + getClass().getSimpleName() +
+                        " or register it explicitly with register().");
+        }
+    };
+
+    private DialogInterface.OnClickListener onGoToAppSettingsFromDialog = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            if (activity != null) {
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
+                intent.setData(uri);
+                activity.startActivity(intent);
+            } else if (!quiet)
+                Log.e(getClass().getSimpleName(), "Need to launch an intent, but no activity is registered! " +
+                        "Specify a valid activity when constructing " + getClass().getSimpleName() +
+                        " or register it explicitly with register().");
+        }
+    };
+
+    private View.OnClickListener onGoToAppSettingsFromView = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (activity != null) {
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
+                intent.setData(uri);
                 activity.startActivity(intent);
             } else if (!quiet)
                 Log.e(getClass().getSimpleName(), "Need to launch an intent, but no activity is registered! " +
