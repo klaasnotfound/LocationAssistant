@@ -215,7 +215,7 @@ free to submit a PR or contact me via klaas [at] klaasnotfound.com.
 ## License
 
 ```
-Copyright 2016 Klaas Klasing (klaas [at] klaasnotfound.com)
+Copyright 2017 Klaas Klasing (klaas [at] klaasnotfound.com)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
