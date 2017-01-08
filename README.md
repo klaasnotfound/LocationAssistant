@@ -72,7 +72,7 @@ project.
 	```java
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        assistant.onPermissionsUpdated();
+        assistant.onPermissionsUpdated(requestCode, grantResults);
     }
 
     @Override
