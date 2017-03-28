@@ -79,7 +79,7 @@ project.
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         assistant.onActivityResult(requestCode, resultCode);
     }
-  ```
+    ```
 
 1. Enjoy location updates in `onNewLocationAvailable(Location location)`.
 That's it - you're done!
